@@ -1,0 +1,17 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Environment files
+.env
+variables.env
+
+# IDE/editor files
+.vscode/
+.idea/
+
+# typings files
+typings/
+
+# Virtual Env
+/mirror/

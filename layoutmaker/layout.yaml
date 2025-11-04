@@ -1,0 +1,61 @@
+orienttation: true
+layout:
+  calendar:
+    x: 0
+    y: 432
+    size: 4
+    color: gray
+  clock:
+    x: 0
+    y: 0
+    size: 3
+    color: purple
+
+
+
+    
+  nothing:
+    x: 960
+    y: 0
+    size: 2
+    color: yellow
+  clock:
+    x: 960
+    y: 360
+    size: 2
+    color: white
+  nothing:
+    x: 960
+    y: 720
+    size: 2
+    color: red
+
+
+  moon:
+    x: 1536
+    y: 0
+    size: 1
+    color: green
+  nothing:
+    x: 1536
+    y: 360
+    size: 1
+    color: blue
+  moon:
+    x: 1536
+    y: 720
+    size: 1
+    color: purple
+  # moon:
+  #   x: 1536
+  #   y: 756
+  #   size: 1
+  #   color: green
+  # clock:
+  #   x: 0
+  #   y: 432
+  #   size: 2
+  #   color: purple
+
+
+

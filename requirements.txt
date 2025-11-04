@@ -1,0 +1,8 @@
+requests
+typing
+datetime
+pyyaml
+dotenv
+pillow
+ephem
+iCalendar
