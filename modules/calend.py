@@ -19,7 +19,7 @@ parent_folder = Path(__file__).resolve().parent.parent
 
 # Step 2: Specify the path to the .env file
 env_path = parent_folder / "variables.env"
-print(env_path)
+
 # Step 3: Load it
 load_dotenv(dotenv_path=env_path)
 
@@ -32,7 +32,7 @@ from layoutmaker.getLayout import getLayoutData
 
 APPLE_ID = os.getenv("ICLOUD_EMAIL")
 APPLE_PASSWORD = os.getenv("CALENDAR_PASS")
-print(APPLE_ID, APPLE_PASSWORD)
+
 CALENDAR_URL = 'https://caldav.icloud.com'
 WANTEDCALS = ["Family"]#, "Cleaning"]
 IGNORELIST = ["Trash out","Recycling out","Katzen Krallen","Switch pajamas","Katzen wasser"]
