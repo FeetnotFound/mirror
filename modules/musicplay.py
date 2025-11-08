@@ -35,7 +35,7 @@ def save_cover_art(base64_data):
     except Exception as e:
         print(f"Failed to save cover art: {e}")
 
-def main():
+def mainmusic():
     print("Connecting to Shairport Sync metadata socket...")
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((HOST, PORT))
@@ -57,4 +57,4 @@ def main():
                 save_cover_art(md['CoverArt'])
 
 if __name__ == "__main__":
-    main()
+    mainmusic()
