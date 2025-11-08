@@ -31,7 +31,7 @@ class clock():
     def __init__(self, canvas:tk.Canvas) -> None:
         self.canvas:tk.Canvas = canvas
     
-    def makeClock(self):
+    def makeclock(self):
         now = datetime.now()
         text = now.strftime(strf)
 
@@ -53,15 +53,15 @@ class clock():
         
         update_clock()
 
-def makeClock(canvas:tk.Canvas):
-    clock(canvas).makeClock()
+def makeclock(canvas:tk.Canvas):
+    clock(canvas).makeclock()
       
 
 def main() -> tk.Tk:
     root, dimensions = makeWindow(title = "Clock Func")
     canvases = makeCanvasDict(root, getLayoutData(), dimensions)
     root.update_idletasks()
-    clock(canvases["clock"][0]).makeClock()
+    clock(canvases["clock"][0]).makeclock()
 
     return root
 

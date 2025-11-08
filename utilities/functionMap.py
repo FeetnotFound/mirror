@@ -9,16 +9,18 @@ from typing import Callable, Any #type: ignore
 import tkinter as tk #type: ignore
 
 
-from modules.clock import makeClock, clock
+from modules.clock import makeclock, clock
 from modules.moon import makemoonphase, moonphase
 from modules.calend import makecalendar, calendar
+from modules.weath import makeweather, weather
 
 
 function_map: dict[str, tuple[Callable[[tk.Canvas], None], list[int]]] = {
-    "clock": (makeClock, clock.size),
+    "clock": (makeclock, clock.size),
     "moon": (makemoonphase, moonphase.size),
     "calendar": (makecalendar, calendar.size),
-    }
+    "weather": (makeweather, weather.size)
+}
 
 
 def getCanvasFunction(canvases: dict[str, tuple[tk.Canvas, int,str]], func_map:dict[str, tuple[Callable[[tk.Canvas], None], list[int]]] = function_map):
