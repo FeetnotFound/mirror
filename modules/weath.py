@@ -257,7 +257,7 @@ def drawWind(canvas:tk.Canvas, wind:str, padding:int = 15):
     
 
 class weather:
-    size:list[int] = [2,3]
+    size:list[int] = [2]
 
     def __init__(self, canvas:tk.Canvas) -> None:
         self.canvas = canvas
@@ -285,7 +285,7 @@ class weather:
                 drawWind(self.canvas, weatherD["wind"])
 
             self.canvas.after(1000,updateWeather)
-            
+
         updateWeather()
 
 def makeweather(canvas:tk.Canvas):

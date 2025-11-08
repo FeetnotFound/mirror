@@ -5,7 +5,7 @@ layout:
     y: 432
     size: 4
     color: gray
-  weather:
+  clock:
     x: 0
     y: 0
     size: 3
