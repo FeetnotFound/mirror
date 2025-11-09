@@ -92,35 +92,74 @@ start_mqtt_listener()
 
 def getMusicImg(canvas: tk.Canvas, padding:int= 15):
     PATH = "/tmp/shairport-sync/.cache/coverart"
+    
+    valid_exts:tuple[str, str] = (".jpg", ".jpeg")
 
-    if not os.path.exists(PATH):
-        print("⚠️ No cover art found at:", PATH)
-        return
-    try:
-        img = Image.open(PATH)
+    for f in os.listdir(PATH):
+        if f.lower().endswith(valid_exts):
+            img_path:str = os.path.join(PATH, f)
+            break
 
-        width, _ = (canvas.winfo_width(), canvas.winfo_height())
+    img = Image.open(img_path) #type:ignore
 
-        imgwidth = int(width/2)
 
+    width, _ = (canvas.winfo_width(), canvas.winfo_height())
+
+    imgwidth = int(width/2)
+
+
+    if img:
         resized = img.resize((imgwidth, imgwidth), Image.LANCZOS)  #type:ignore 
 
         photo = ImageTk.PhotoImage(resized)
 
         canvas.create_image(padding, padding, image=photo, anchor="nw") #type:ignore
-        canvas.image = photo #type:ignore
+                # Keep reference alive
+        if not hasattr(canvas, "_photo_refs"):
+            canvas._photo_refs = []  #type:ignore
+        canvas._photo_refs.append(photo)  #type:ignore
 
         print("yuppers")
-    except:
-        print("nuppers")
+    else:
+        img = Image.open(os.path.dirname(os.path.abspath(__file__)).replace("/modules", "/assests/music/no_music.png"))
+        resized = img.resize((imgwidth, imgwidth), Image.LANCZOS)  #type:ignore 
+
+        photo = ImageTk.PhotoImage(resized)
+
+        canvas.create_image(padding, padding, image=photo, anchor="nw") #type:ignore
+                # Keep reference alive
+        if not hasattr(canvas, "_photo_refs"):
+            canvas._photo_refs = []  #type:ignore
+        canvas._photo_refs.append(photo)  #type:ignore
+
+def getSize(canvas:tk.Canvas):
+    root = canvas.winfo_toplevel()
+    width = root.winfo_width()
+    height = root.winfo_height()
+    sizes:dict[int, tuple[float, float]] = {
+    1: (1/3, 0.2),
+    2: (1/3, 0.3),
+    3: (0.4, 0.5),
+}
+    if width*sizes[1][0] == canvas.winfo_width():
+        return 1
+    else:
+        return 2
+    
+
 
 def makemusic(canvas:tk.Canvas):
+
+    print(getSize(canvas))
+
+
     metadata:dict[Any, Any] = get_latest_metadata()
     if metadata:
         print(metadata["album"], metadata["artist"], metadata["title"])
-        getMusicImg(canvas)
+        
     else:
         pass
+    getMusicImg(canvas)
     canvas.config(bg="black")
     def updatemusic(metadata:dict[Any,Any]):
         new_metadata = get_latest_metadata()
