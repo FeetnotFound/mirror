@@ -28,7 +28,7 @@ from typing import Optional, Dict, Any
 import paho.mqtt.client as mqtt
 
 import warnings
-from PIL import Image #type:ignore
+from PIL import Image, ImageTk #type:ignore
 import tkinter as tk
 
 warnings.filterwarnings("ignore", category=DeprecationWarning)
@@ -93,34 +93,46 @@ start_mqtt_listener()
 def getMusicImg(canvas: tk.Canvas, padding:int= 15):
     PATH = "/tmp/shairport-sync/.cache/coverart"
 
-    img = Image.open(PATH)
+    if not os.path.exists(PATH):
+        print("⚠️ No cover art found at:", PATH)
+        return
+    try:
+        img = Image.open(PATH)
 
-    width, _ = (canvas.winfo_width(), canvas.winfo_height())
+        width, _ = (canvas.winfo_width(), canvas.winfo_height())
 
-    imgwidth = int(width/2)
+        imgwidth = int(width/2)
 
-    resized = img.resize((imgwidth, imgwidth), Image.LANCZOS)  #type:ignore 
+        resized = img.resize((imgwidth, imgwidth), Image.LANCZOS)  #type:ignore 
 
-    canvas.create_image(padding, padding, image=resized, anchor="nw") #type:ignore
-    canvas.image = resized #type:ignore
+        photo = ImageTk.PhotoImage(resized)
+
+        canvas.create_image(padding, padding, image=photo, anchor="nw") #type:ignore
+        canvas.image = photo #type:ignore
+
+        print("yuppers")
+    except:
+        print("nuppers")
 
 def makemusic(canvas:tk.Canvas):
-    metadata = get_latest_metadata()
-    try:
+    metadata:dict[Any, Any] = get_latest_metadata()
+    if metadata:
         print(metadata["album"], metadata["artist"], metadata["title"])
         getMusicImg(canvas)
-    except:
+    else:
         pass
-    def updatemusic():
-            metadata = get_latest_metadata()
-            try:
-                print(metadata["album"], metadata["artist"], metadata["title"])
-                getMusicImg(canvas)
-            except:
-                pass
-            canvas.after(1000, updatemusic)
+    canvas.config(bg="black")
+    def updatemusic(metadata:dict[Any,Any]):
+        new_metadata = get_latest_metadata()
+        if new_metadata and new_metadata != metadata:
+            print(new_metadata.get("album"), new_metadata.get("artist"), new_metadata.get("title"))
+            getMusicImg(canvas)
+            metadata = new_metadata
+        else:
+            print("No update yet")
+        canvas.after(1000, updatemusic, metadata)
 
-    updatemusic()
+    updatemusic(metadata)
 
 
 def main() -> tk.Tk:
