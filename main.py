@@ -7,7 +7,7 @@ from utilities.window import makeWindow
 from layoutmaker.getLayout import getLayoutData
 from utilities.makeWindows import makeCanvasDict
 from utilities.functionMap import getCanvasFunction
-from modules.musicplay import mainmusic
+
 
 
 def main() -> tk.Tk:
@@ -15,7 +15,7 @@ def main() -> tk.Tk:
     canvases = makeCanvasDict(root, getLayoutData(), dims)
     root.update_idletasks()
     getCanvasFunction(canvases)
-    mainmusic()
+
 
     return root
 
