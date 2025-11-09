@@ -90,7 +90,7 @@ def get_latest_metadata() -> Dict[str, Any]:
 # Start the background listener once
 start_mqtt_listener()
 
-def getMusicImg(canvas: tk.Canvas, padding:int= 15):
+def getMusicImg(canvas: tk.Canvas, size:int, padding:int= 15):
     PATH = "/tmp/shairport-sync/.cache/coverart"
     
     valid_exts:tuple[str, str] = (".jpg", ".jpeg")
@@ -103,10 +103,12 @@ def getMusicImg(canvas: tk.Canvas, padding:int= 15):
     img = Image.open(img_path) #type:ignore
 
 
-    width, _ = (canvas.winfo_width(), canvas.winfo_height())
+    width, height = (canvas.winfo_width(), canvas.winfo_height())
 
-    imgwidth = int(width/2)
-
+    if size == 1:
+        imgwidth = int(width/2)
+    else:
+        imgwidth = int(height)
 
     if img:
         resized = img.resize((imgwidth, imgwidth), Image.LANCZOS)  #type:ignore 
@@ -135,13 +137,12 @@ def getMusicImg(canvas: tk.Canvas, padding:int= 15):
 def getSize(canvas:tk.Canvas):
     root = canvas.winfo_toplevel()
     width = root.winfo_width()
-    height = root.winfo_height()
     sizes:dict[int, tuple[float, float]] = {
     1: (1/3, 0.2),
     2: (1/3, 0.3),
     3: (0.4, 0.5),
 }
-    if width*sizes[1][0] == canvas.winfo_width():
+    if width*sizes[1][1] == canvas.winfo_width():
         return 1
     else:
         return 2
@@ -150,7 +151,7 @@ def getSize(canvas:tk.Canvas):
 
 def makemusic(canvas:tk.Canvas):
 
-    print(getSize(canvas))
+    size = getSize(canvas)
 
 
     metadata:dict[Any, Any] = get_latest_metadata()
@@ -159,13 +160,13 @@ def makemusic(canvas:tk.Canvas):
         
     else:
         pass
-    getMusicImg(canvas)
+    getMusicImg(canvas, size)
     canvas.config(bg="black")
     def updatemusic(metadata:dict[Any,Any]):
         new_metadata = get_latest_metadata()
         if new_metadata and new_metadata != metadata:
             print(new_metadata.get("album"), new_metadata.get("artist"), new_metadata.get("title"))
-            getMusicImg(canvas)
+            getMusicImg(canvas, size)
             metadata = new_metadata
         else:
             print("No update yet")
