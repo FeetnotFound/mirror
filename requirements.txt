@@ -9,3 +9,4 @@ caldav
 vobject
 google-search-results
 cairosvg
+paho-mqtt
