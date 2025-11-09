@@ -99,15 +99,25 @@ mqtt_client = start_mqtt_listener()
 def makemusic(canvas:tk.Canvas):
     metadata = get_latest_metadata()
     print(metadata["album"], metadata["artist"], metadata["title"])
+    def updatemusic():
+            metadata = get_latest_metadata()
+
+            print(metadata["album"], metadata["artist"], metadata["title"])
+            canvas.after(1000, updatemusic)
+
+    updatemusic()
 
 
-
-def main() -> None:
+def main() -> tk.Tk:
     root, dims = makeWindow(title = "music")
     canvases = makeCanvasDict(root, getLayoutData(), dims)
     root.update_idletasks()
     makemusic(canvases["music"][0])
 
+    return root
+
 
 if __name__ == '__main__':
-    main()
+    root = main()
+
+    root.mainloop()
