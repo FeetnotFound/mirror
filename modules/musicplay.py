@@ -1,6 +1,5 @@
 # https://github.com/mikebrady/shairport-sync/
 
-
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -62,15 +61,10 @@ def on_connect(client: mqtt.Client, userdata: Optional[object], flags: dict[Any,
 def on_message(client: mqtt.Client, userdata: Optional[object], msg: mqtt.MQTTMessage) -> None:
     topic = msg.topic.lower()
     payload_bytes = msg.payload
-    print(topic)
-    if topic.endswith("cover"):
-        print(topic)
 
+    key = topic.split("/")[-1]
 
-    else:
-        key = topic.split("/")[-1]
-
-        LATEST_METADATA[key] = payload_bytes.decode("utf-8", errors="ignore")
+    LATEST_METADATA[key] = payload_bytes.decode("utf-8", errors="ignore")
 # --- Start background listener ---
 def start_mqtt_listener() -> mqtt.Client:
     client = mqtt.Client()
@@ -94,15 +88,36 @@ def get_latest_metadata() -> Dict[str, Any]:
 
 
 # Start the background listener once
-mqtt_client = start_mqtt_listener()
+start_mqtt_listener()
+
+def getMusicImg(canvas: tk.Canvas, padding:int= 15):
+    PATH = "/tmp/shairport-sync/.cache/coverart"
+
+    img = Image.open(PATH)
+
+    width, _ = (canvas.winfo_width(), canvas.winfo_height())
+
+    imgwidth = int(width/2)
+
+    resized = img.resize((imgwidth, imgwidth), Image.LANCZOS)  #type:ignore 
+
+    canvas.create_image(padding, padding, image=resized, anchor="nw") #type:ignore
+    canvas.image = resized #type:ignore
 
 def makemusic(canvas:tk.Canvas):
     metadata = get_latest_metadata()
-    print(metadata["album"], metadata["artist"], metadata["title"])
+    try:
+        print(metadata["album"], metadata["artist"], metadata["title"])
+        getMusicImg(canvas)
+    except:
+        pass
     def updatemusic():
             metadata = get_latest_metadata()
-
-            print(metadata["album"], metadata["artist"], metadata["title"])
+            try:
+                print(metadata["album"], metadata["artist"], metadata["title"])
+                getMusicImg(canvas)
+            except:
+                pass
             canvas.after(1000, updatemusic)
 
     updatemusic()
