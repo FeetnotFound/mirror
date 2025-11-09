@@ -105,17 +105,18 @@ def getMusicImg(canvas: tk.Canvas, size:int, padding:int= 15):
 
     width, height = (canvas.winfo_width(), canvas.winfo_height())
 
+    imgwidth = width/2
+
     if size == 1:
-        imgwidth = int(width/2)
+        y = padding
     else:
-        imgwidth = int(height)
+        y = ((height-imgwidth)/2)
 
     if img:
         resized = img.resize((imgwidth, imgwidth), Image.LANCZOS)  #type:ignore 
-
         photo = ImageTk.PhotoImage(resized)
 
-        canvas.create_image(padding, padding, image=photo, anchor="nw") #type:ignore
+        canvas.create_image(padding, y, image=photo, anchor="nw") #type:ignore
                 # Keep reference alive
         if not hasattr(canvas, "_photo_refs"):
             canvas._photo_refs = []  #type:ignore
@@ -124,7 +125,7 @@ def getMusicImg(canvas: tk.Canvas, size:int, padding:int= 15):
         print("yuppers")
     else:
         img = Image.open(os.path.dirname(os.path.abspath(__file__)).replace("/modules", "/assests/music/no_music.png"))
-        resized = img.resize((imgwidth, imgwidth), Image.LANCZOS)  #type:ignore 
+        resized = img.resize((imgwidth, y), Image.LANCZOS)  #type:ignore 
 
         photo = ImageTk.PhotoImage(resized)
 
