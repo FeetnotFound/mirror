@@ -90,7 +90,7 @@ def get_latest_metadata() -> Dict[str, Any]:
 # Start the background listener once
 start_mqtt_listener()
 
-def getMusicImg(canvas: tk.Canvas, size:int, padding:int= 15) -> int:
+def getMusicImg(canvas: tk.Canvas, size:int, padding:int= 15) -> tuple[int, int]:
     PATH = "/tmp/shairport-sync/.cache/coverart"
     
     valid_exts:tuple[str, str] = (".jpg", ".jpeg")
@@ -134,7 +134,7 @@ def getMusicImg(canvas: tk.Canvas, size:int, padding:int= 15) -> int:
         if not hasattr(canvas, "_photo_refs"):
             canvas._photo_refs = []  #type:ignore
         canvas._photo_refs.append(photo)  #type:ignore
-    return imgwidth
+    return imgwidth, y
 
 def getSize(canvas:tk.Canvas):
     root = canvas.winfo_toplevel()
@@ -149,7 +149,7 @@ def getSize(canvas:tk.Canvas):
     else:
         return 2
     
-def getTitle(canvas:tk.Canvas, size:int, picturesize:int ,title:str, padding:int=15):
+def getTitle(canvas:tk.Canvas, size:int, picturesize:int, ty:int,title:str, padding:int=15):
     width, _ = (canvas.winfo_width(), canvas.winfo_height())
 
     
@@ -157,20 +157,19 @@ def getTitle(canvas:tk.Canvas, size:int, picturesize:int ,title:str, padding:int
 
     twidth = width-x
 
-    canvas.create_text(x, padding, text=title, width=twidth, fill="white", font=("Helvetica", 20))
-
+    canvas.create_text(x, ty, text=title, width=twidth, fill="white", font=("Helvetica", 20))
 
 def makemusic(canvas:tk.Canvas):
 
     size = getSize(canvas)
 
-    picsize = getMusicImg(canvas, size)
+    picsize, ty = getMusicImg(canvas, size)
 
 
     metadata:dict[Any, Any] = get_latest_metadata()
     if metadata:
         print(metadata["album"], metadata["artist"], metadata["title"])
-        getTitle(canvas,size, picsize, metadata["title"])
+        getTitle(canvas,size, picsize, ty, metadata["title"])
     else:
         pass
     
@@ -181,7 +180,7 @@ def makemusic(canvas:tk.Canvas):
             canvas.delete("all")
             print(new_metadata.get("album"), new_metadata.get("artist"), new_metadata.get("title"))
             getMusicImg(canvas, size)
-            getTitle(canvas, size, picsize, new_metadata["title"])
+            getTitle(canvas, size, picsize, ty, new_metadata["title"])
             metadata = new_metadata
         else:
             print("No update yet")
