@@ -161,7 +161,7 @@ def getTitle(canvas:tk.Canvas, size:int, picturesize:int, title:Any, padding:int
     font = 20
     x:int = int((padding*2)+picturesize)
     if size == 1:
-        y = padding
+        y = int(((height/2)+(padding*2))+(height*(1/6)))
         
     else:
         y = int((height-picturesize)/2)
@@ -180,7 +180,7 @@ def getArtist(canvas:tk.Canvas, size:int, picturesize:int, title:Any, padding:in
     font:int = 20
     
     if size == 1:
-        y = int((height/2)+padding)
+        y = y = int(((height/2)+(padding*2))+(height*(2/6)))
         x = padding
 
         
@@ -201,7 +201,7 @@ def getAlbum(canvas:tk.Canvas, size:int, picturesize:int, title:Any, padding:int
     width, height = (canvas.winfo_width(), canvas.winfo_height())
     font:int = 20
     if size == 1:
-        y = int(((height/2)+padding)+(height*(1/4)))
+        y = y = int(((height/2)+(padding*2))+(height*(3/6)))
         x = padding
         
     else:
