@@ -150,14 +150,18 @@ def getSize(canvas:tk.Canvas):
         return 2
     
 def getTitle(canvas:tk.Canvas, size:int, picturesize:int, ty:int,title:str, padding:int=15):
-    width, _ = (canvas.winfo_width(), canvas.winfo_height())
+    width, height = (canvas.winfo_width(), canvas.winfo_height())
 
     
     x:int = int((padding*2)+picturesize)
+    if size == 1:
+        y = padding
+    else:
+        y = int((height-picturesize)/2)
 
     twidth = width-x
 
-    canvas.create_text(x, ty, text=title, width=twidth, fill="white", font=("Helvetica", 20))
+    canvas.create_text(x, y, text=title, width=twidth, fill="white", font=("Helvetica", 20), anchor="nw")
 
 def makemusic(canvas:tk.Canvas):
 
