@@ -109,14 +109,16 @@ def getMusicImg(canvas: tk.Canvas, size:int, padding:int= 15) -> tuple[int, int]
 
     if size == 1:
         y = padding
+        x = int((width-imgwidth)/2)
     else:
         y = int((height-imgwidth)/2)
+        x = padding
 
     if img:
         resized = img.resize((imgwidth, imgwidth), Image.LANCZOS)  #type:ignore 
         photo = ImageTk.PhotoImage(resized)
 
-        canvas.create_image(padding, y, image=photo, anchor="nw") #type:ignore
+        canvas.create_image(x, y, image=photo, anchor="nw") #type:ignore
                 # Keep reference alive
         if not hasattr(canvas, "_photo_refs"):
             canvas._photo_refs = []  #type:ignore
@@ -129,7 +131,7 @@ def getMusicImg(canvas: tk.Canvas, size:int, padding:int= 15) -> tuple[int, int]
 
         photo = ImageTk.PhotoImage(resized)
 
-        canvas.create_image(padding, padding, image=photo, anchor="nw") #type:ignore
+        canvas.create_image(x, padding, image=photo, anchor="nw") #type:ignore
                 # Keep reference alive
         if not hasattr(canvas, "_photo_refs"):
             canvas._photo_refs = []  #type:ignore
