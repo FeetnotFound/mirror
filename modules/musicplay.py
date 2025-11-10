@@ -159,11 +159,13 @@ def getTitle(canvas:tk.Canvas, size:int, picturesize:int, title:Any, padding:int
     width, height = (canvas.winfo_width(), canvas.winfo_height())
 
     font = 20
-    x:int = int((padding*2)+picturesize)
+    
     if size == 1:
+        x = padding
         y = int(((height/2)+(padding*2))+(height*(1/6)))
         
     else:
+        x:int = int((padding*2)+picturesize)
         y = int((height-picturesize)/2)
 
     twidth = width-x
