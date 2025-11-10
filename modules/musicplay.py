@@ -149,7 +149,7 @@ def getSize(canvas:tk.Canvas):
     else:
         return 2
     
-def getTitle(canvas:tk.Canvas, size:int, picturesize:int, title:str, padding:int=15):
+def getTitle(canvas:tk.Canvas, size:int, picturesize:int, title:Any, padding:int=15):
     if title:
         pass
     else:
@@ -168,7 +168,7 @@ def getTitle(canvas:tk.Canvas, size:int, picturesize:int, title:str, padding:int
 
     canvas.create_text(x, y, text=title, width=twidth, fill="white", font=("Helvetica", font), anchor="nw")
 
-def getArtist(canvas:tk.Canvas, size:int, picturesize:int, title:str, padding:int=15):
+def getArtist(canvas:tk.Canvas, size:int, picturesize:int, title:Any, padding:int=15):
     if title:
         pass
     else:
@@ -191,7 +191,7 @@ def getArtist(canvas:tk.Canvas, size:int, picturesize:int, title:str, padding:in
 
     canvas.create_text(x, y, text=title, width=twidth, fill="white", font=("Helvetica", font), anchor="nw")
 
-def getAlbum(canvas:tk.Canvas, size:int, picturesize:int, title:str, padding:int=15):
+def getAlbum(canvas:tk.Canvas, size:int, picturesize:int, title:Any, padding:int=15):
     if title:
         pass
     else:
@@ -220,7 +220,7 @@ def makemusic(canvas:tk.Canvas):
 
     metadata = get_latest_metadata()
 
-    print(metadata["album"], metadata["artist"], metadata["title"])
+    print(metadata.get("title"), metadata.get("artist"), metadata.get("album"))
     getTitle(canvas,size, picsize, metadata.get("title"))
     getArtist(canvas,size, picsize, metadata.get("artist"))
     getAlbum(canvas,size, picsize, metadata.get("album"))
