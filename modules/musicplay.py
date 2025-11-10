@@ -159,8 +159,7 @@ def getTitle(canvas:tk.Canvas, size:int, picturesize:int, title:str, padding:int
         font = 20
     else:
         y = int((height-picturesize)/2)
-        font = 45
-
+        font = 30
     twidth = width-x
 
     canvas.create_text(x, y, text=title, width=twidth, fill="white", font=("Helvetica", font), anchor="nw")
@@ -177,7 +176,7 @@ def getArtist(canvas:tk.Canvas, size:int, picturesize:int, title:str, padding:in
     else:
         y = int((height-picturesize)/2)+(picturesize*(1/3))
         x:int = int((padding*2)+picturesize)
-        font = 45
+        font = 30
 
     twidth = width-x
 
@@ -193,7 +192,7 @@ def getAlbum(canvas:tk.Canvas, size:int, picturesize:int, title:str, padding:int
     else:
         y = int((height-picturesize)/2)+(picturesize*(2/3))
         x:int = int((padding*2)+picturesize)
-        font = 45
+        font = 30
 
     twidth = width-x
 
@@ -211,7 +210,7 @@ def makemusic(canvas:tk.Canvas):
         print(metadata["album"], metadata["artist"], metadata["title"])
         getTitle(canvas,size, picsize, metadata["title"])
         getArtist(canvas,size, picsize, metadata["artist"])
-        getAlbum(canvas,size, picsize, metadata["ablum"])
+        getAlbum(canvas,size, picsize, metadata["album"])
     else:
         pass
     
