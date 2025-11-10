@@ -168,19 +168,21 @@ def getTitle(canvas:tk.Canvas, size:int, picturesize:int, title:Any, Artist:Any,
     font = 20
     
     if size == 1:
-        x = padding
+        x = int(width/2)
         y = int(((height/2)+(padding*2)))
         twidth = width-(padding*2)       
         anchor = "nw" 
         theText = f"{title}\n{Artist}\n{Album}"
+        just = "center"
     else:
         x:int = int((padding*2)+picturesize)
         y = int(((height-picturesize)/2)+(picturesize/2))
         twidth = int(width-(picturesize+(padding*2)))
         anchor = "w"
         theText = f"{title}\n\n{Artist}\n\n{Album}"
+        just = "left"
     
-    canvas.create_text(x, y, text=theText, width=twidth, fill="white", font=("Helvetica", font), anchor=anchor)
+    canvas.create_text(x, y, text=theText, width=twidth, fill="white", font=("Helvetica", font), anchor=anchor, justify=just)
 
 
 
