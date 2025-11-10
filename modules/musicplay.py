@@ -150,6 +150,10 @@ def getSize(canvas:tk.Canvas):
         return 2
     
 def getTitle(canvas:tk.Canvas, size:int, picturesize:int, title:str, padding:int=15):
+    if title:
+        pass
+    else:
+        title = "No Song Title"
     width, height = (canvas.winfo_width(), canvas.winfo_height())
 
     font = 20
@@ -165,6 +169,10 @@ def getTitle(canvas:tk.Canvas, size:int, picturesize:int, title:str, padding:int
     canvas.create_text(x, y, text=title, width=twidth, fill="white", font=("Helvetica", font), anchor="nw")
 
 def getArtist(canvas:tk.Canvas, size:int, picturesize:int, title:str, padding:int=15):
+    if title:
+        pass
+    else:
+        title = "No Song Artist"
     width, height = (canvas.winfo_width(), canvas.winfo_height())
 
     font:int = 20
@@ -172,7 +180,7 @@ def getArtist(canvas:tk.Canvas, size:int, picturesize:int, title:str, padding:in
     if size == 1:
         y = int((height/2)+padding)
         x = padding
-        
+
         
     else:
         y = int((height-picturesize)/2)+(picturesize*(1/3))
@@ -184,6 +192,10 @@ def getArtist(canvas:tk.Canvas, size:int, picturesize:int, title:str, padding:in
     canvas.create_text(x, y, text=title, width=twidth, fill="white", font=("Helvetica", font), anchor="nw")
 
 def getAlbum(canvas:tk.Canvas, size:int, picturesize:int, title:str, padding:int=15):
+    if title:
+        pass
+    else:
+        title = "No Song Album"
     width, height = (canvas.winfo_width(), canvas.winfo_height())
     font:int = 20
     if size == 1:
@@ -206,15 +218,13 @@ def makemusic(canvas:tk.Canvas):
     picsize, _ = getMusicImg(canvas, size)
 
 
-    metadata:dict[Any, Any] = get_latest_metadata()
-    if metadata:
-        print(metadata["album"], metadata["artist"], metadata["title"])
-        getTitle(canvas,size, picsize, metadata["title"])
-        getArtist(canvas,size, picsize, metadata["artist"])
-        getAlbum(canvas,size, picsize, metadata["album"])
-    else:
-        pass
-    
+    metadata = get_latest_metadata()
+
+    print(metadata["album"], metadata["artist"], metadata["title"])
+    getTitle(canvas,size, picsize, metadata.get("title"))
+    getArtist(canvas,size, picsize, metadata.get("artist"))
+    getAlbum(canvas,size, picsize, metadata.get("album"))
+
     canvas.config(bg="black")
     def updatemusic(metadata:dict[Any,Any]):
         new_metadata = get_latest_metadata()
@@ -222,9 +232,9 @@ def makemusic(canvas:tk.Canvas):
             canvas.delete("all")
             print(new_metadata.get("album"), new_metadata.get("artist"), new_metadata.get("title"))
             getMusicImg(canvas, size)
-            getTitle(canvas, size, picsize, new_metadata["title"])
-            getArtist(canvas,size, picsize, new_metadata["artist"])
-            getAlbum(canvas,size, picsize, new_metadata["album"])
+            getTitle(canvas, size, picsize, new_metadata.get("title"))
+            getArtist(canvas,size, picsize, new_metadata.get("artist"))
+            getAlbum(canvas,size, picsize, new_metadata.get("album"))
             metadata = new_metadata
         else:
             print("No update yet")
