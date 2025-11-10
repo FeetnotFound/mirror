@@ -162,7 +162,7 @@ def getTitle(canvas:tk.Canvas, size:int, picturesize:int, title:Any, Artist:Any,
         pass
     else:
         Album = "No Song Artist"
-    theText = f"{title}\n{Artist}\n{Album}"
+    theText = f"Title: {title}\nArtist: {Artist}\nAlbum: {Album}"
     width, height = (canvas.winfo_width(), canvas.winfo_height())
 
     font = 20
@@ -178,7 +178,7 @@ def getTitle(canvas:tk.Canvas, size:int, picturesize:int, title:Any, Artist:Any,
     
     canvas.create_text(x, y, text=theText, width=twidth, fill="white", font=("Helvetica", font), anchor="nw")
 
-def getPlaying(canvas:tk.Canvas,picturesize:int, isPlaying: Any = 1, padding: int= 15):
+def getPlaying(canvas:tk.Canvas, picturesize:int, isPlaying: Any = 1, padding: int= 15):
     width, height = (canvas.winfo_width(), canvas.winfo_height())
 
     x:int = int((padding*2)+picturesize)
@@ -193,7 +193,17 @@ def getPlaying(canvas:tk.Canvas,picturesize:int, isPlaying: Any = 1, padding: in
 
     imgwidth = int((width-x)-(padding*2))
 
-    img = Image.open(path)
+    img = Image.open(path).convert("RGB")
+    # Load pixels
+    pixels = img.load()
+
+    for i in range(img.width):
+        for j in range(img.height):
+            r, g, b = pixels[i, j]
+            if r == 0 and g == 0 and b == 0:  # black pixel
+                pixels[i, j] = (255, 255, 255)  # change to white
+
+
     resized = img.resize((imgwidth, imgwidth), Image.LANCZOS)  #type:ignore 
 
     photo = ImageTk.PhotoImage(resized)
