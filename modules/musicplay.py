@@ -108,7 +108,7 @@ def getMusicImg(canvas: tk.Canvas, size:int, padding:int= 15) -> tuple[int, int]
     imgwidth = int(width/2)
 
     if size == 1:
-        y = padding
+        y = 0
         x = int((width-imgwidth)/2)
     else:
         y = int((height-imgwidth)/2)
