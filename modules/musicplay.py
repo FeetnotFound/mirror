@@ -223,7 +223,7 @@ def makemusic(canvas:tk.Canvas):
             getMusicImg(canvas, size)
             getTitle(canvas, size, picsize, new_metadata["title"])
             getArtist(canvas,size, picsize, new_metadata["artist"])
-            getAlbum(canvas,size, picsize, new_metadata["ablum"])
+            getAlbum(canvas,size, picsize, new_metadata["album"])
             metadata = new_metadata
         else:
             print("No update yet")
