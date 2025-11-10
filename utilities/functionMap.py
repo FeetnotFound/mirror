@@ -13,13 +13,14 @@ from modules.clock import makeclock, clock
 from modules.moon import makemoonphase, moonphase
 from modules.calend import makecalendar, calendar
 from modules.weath import makeweather, weather
-
+from modules.musicplay import makemusic, music
 
 function_map: dict[str, tuple[Callable[[tk.Canvas], None], list[int]]] = {
     "clock": (makeclock, clock.size),
     "moon": (makemoonphase, moonphase.size),
     "calendar": (makecalendar, calendar.size),
-    "weather": (makeweather, weather.size)
+    "weather": (makeweather, weather.size),
+    "music": (makemusic, music.size)
 }
 
 
