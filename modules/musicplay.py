@@ -152,14 +152,14 @@ def getSize(canvas:tk.Canvas):
 def getTitle(canvas:tk.Canvas, size:int, picturesize:int, title:str, padding:int=15):
     width, height = (canvas.winfo_width(), canvas.winfo_height())
 
-    
+    font = 20
     x:int = int((padding*2)+picturesize)
     if size == 1:
         y = padding
-        font = 20
+        
     else:
         y = int((height-picturesize)/2)
-        font = 30
+
     twidth = width-x
 
     canvas.create_text(x, y, text=title, width=twidth, fill="white", font=("Helvetica", font), anchor="nw")
@@ -167,16 +167,17 @@ def getTitle(canvas:tk.Canvas, size:int, picturesize:int, title:str, padding:int
 def getArtist(canvas:tk.Canvas, size:int, picturesize:int, title:str, padding:int=15):
     width, height = (canvas.winfo_width(), canvas.winfo_height())
 
-    
+    font:int = 20
     
     if size == 1:
         y = int((height/2)+padding)
         x = padding
-        font:int = 20
+        
+        
     else:
         y = int((height-picturesize)/2)+(picturesize*(1/3))
         x:int = int((padding*2)+picturesize)
-        font = 30
+
 
     twidth = width-x
 
@@ -184,15 +185,15 @@ def getArtist(canvas:tk.Canvas, size:int, picturesize:int, title:str, padding:in
 
 def getAlbum(canvas:tk.Canvas, size:int, picturesize:int, title:str, padding:int=15):
     width, height = (canvas.winfo_width(), canvas.winfo_height())
-
+    font:int = 20
     if size == 1:
         y = int(((height/2)+padding)+(height*(1/4)))
         x = padding
-        font:int = 20
+        
     else:
         y = int((height-picturesize)/2)+(picturesize*(2/3))
         x:int = int((padding*2)+picturesize)
-        font = 30
+        
 
     twidth = width-x
 
