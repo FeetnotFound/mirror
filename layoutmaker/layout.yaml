@@ -46,16 +46,7 @@ layout:
     y: 720
     size: 1
     color: purple
-  # moon:
-  #   x: 1536
-  #   y: 756
-  #   size: 1
-  #   color: green
-  # clock:
-  #   x: 0
-  #   y: 432
-  #   size: 2
-  #   color: purple
+
 
 
 
