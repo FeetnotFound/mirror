@@ -171,7 +171,7 @@ def getTitle(canvas:tk.Canvas, size:int, picturesize:int, title:Any, Artist:Any,
     
     if size == 1:
         x = padding
-        y = int(((height/2)+padding))
+        y = int(((height/2)+(padding*2)))
         
     else:
         x:int = int((padding*2)+picturesize)
