@@ -170,49 +170,16 @@ def getTitle(canvas:tk.Canvas, size:int, picturesize:int, title:Any, Artist:Any,
     if size == 1:
         x = padding
         y = int(((height/2)+(padding*2)))
-        twidth = width-(padding*2)        
+        twidth = width-(padding*2)       
+        anchor = "nw" 
     else:
         x:int = int((padding*2)+picturesize)
-        y = int(((height-picturesize)/2)+padding)
+        y = int(((height-picturesize)/2)+(picturesize/2))
         twidth = int(width-(picturesize+(padding*2)))
+        anchor = "w"
     
-    canvas.create_text(x, y, text=theText, width=twidth, fill="white", font=("Helvetica", font), anchor="nw")
+    canvas.create_text(x, y, text=theText, width=twidth, fill="white", font=("Helvetica", font), anchor=anchor)
 
-def getPlaying(canvas:tk.Canvas, picturesize:int, isPlaying: Any = 1, padding: int= 15):
-    width, height = (canvas.winfo_width(), canvas.winfo_height())
-
-    x:int = int((padding*2)+picturesize)
-    y = int(((height-picturesize)/2)+(picturesize*(3/4)))
-
-
-    if isPlaying == '0':
-        path = os.path.dirname(os.path.abspath(__file__)).replace("/modules", "/assests/music/playing.png")
-    else:
-        path = os.path.dirname(os.path.abspath(__file__)).replace("/modules", "/assests/music/paused.png")
-
-
-    imgwidth = int((width-x)-(padding*2))
-
-    img = Image.open(path).convert("RGB")
-    # Load pixels
-    pixels = img.load()
-
-    for i in range(img.width):
-        for j in range(img.height):
-            r, g, b = pixels[i, j]
-            if r == 0 and g == 0 and b == 0:  # black pixel
-                pixels[i, j] = (255, 255, 255)  # change to white
-
-
-    resized = img.resize((imgwidth, imgwidth), Image.LANCZOS)  #type:ignore 
-
-    photo = ImageTk.PhotoImage(resized)
-
-    canvas.create_image(x, y, image=photo, anchor="nw") #type:ignore
-            # Keep reference alive
-    if not hasattr(canvas, "_photo_refs"):
-        canvas._photo_refs = []  #type:ignore
-    canvas._photo_refs.append(photo)  #type:ignore
 
 
 
@@ -230,8 +197,7 @@ def makemusic(canvas:tk.Canvas):
 
     print(metadata.get("title"), metadata.get("artist"), metadata.get("album"))
     getTitle(canvas,size, picsize, metadata.get("title"), metadata.get("artist"), metadata.get("album"))
-    if size == 2:
-        getPlaying(canvas, picsize, metadata.get("playing"))
+
     canvas.config(bg="black")
 
     def updatemusic(metadata:dict[Any,Any]):
@@ -241,8 +207,7 @@ def makemusic(canvas:tk.Canvas):
             print(new_metadata.get("album"), new_metadata.get("artist"), new_metadata.get("title"))
             getMusicImg(canvas, size)
             getTitle(canvas,size, picsize, new_metadata.get("title"), new_metadata.get("artist"), new_metadata.get("album"))            
-            if size == 2:
-                getPlaying(canvas, picsize, new_metadata.get("playing"))
+
             metadata = new_metadata
         else:
             print("No update yet")
