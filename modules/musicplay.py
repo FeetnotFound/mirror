@@ -102,7 +102,6 @@ def getMusicImg(canvas: tk.Canvas, size:int, padding:int= 15) -> tuple[int, int]
 
     img = Image.open(img_path) #type:ignore
 
-
     width, height = (canvas.winfo_width(), canvas.winfo_height())
 
     imgwidth = int(width/2)
@@ -127,7 +126,7 @@ def getMusicImg(canvas: tk.Canvas, size:int, padding:int= 15) -> tuple[int, int]
         print("yuppers")
     else:
         img = Image.open(os.path.dirname(os.path.abspath(__file__)).replace("/modules", "/assests/music/no_music.png"))
-        resized = img.resize((imgwidth, y), Image.LANCZOS)  #type:ignore 
+        resized = img.resize((imgwidth, imgwidth), Image.LANCZOS)  #type:ignore 
 
         photo = ImageTk.PhotoImage(resized)
 
@@ -144,7 +143,6 @@ def getSize(canvas:tk.Canvas):
     sizes:dict[int, tuple[float, float]] = {
     1: (1/3, 0.2),
     2: (1/3, 0.3),
-    3: (0.4, 0.5),
 }
     if width*sizes[1][1] == canvas.winfo_width():
         return 1
@@ -175,11 +173,42 @@ def getTitle(canvas:tk.Canvas, size:int, picturesize:int, title:Any, Artist:Any,
         twidth = width-(padding*2)        
     else:
         x:int = int((padding*2)+picturesize)
-        y = int((height-picturesize)/2)
+        y = int(((height-picturesize)/2)+padding)
         twidth = int(width-(picturesize+(padding*2)))
     
-
     canvas.create_text(x, y, text=theText, width=twidth, fill="white", font=("Helvetica", font), anchor="nw")
+
+def getPlaying(canvas:tk.Canvas,picturesize:int, isPlaying: Any = 1, padding: int= 15):
+    width, height = (canvas.winfo_width(), canvas.winfo_height())
+
+    x:int = int((padding*2)+picturesize)
+    y = int(((height-picturesize)/2)+(picturesize*(3/4)))
+
+
+    if isPlaying == '0':
+        path = os.path.dirname(os.path.abspath(__file__)).replace("/modules", "/assests/music/playing.png")
+    else:
+        path = os.path.dirname(os.path.abspath(__file__)).replace("/modules", "/assests/music/paused.png")
+
+
+    imgwidth = int((width-x)-(padding*2))
+
+    img = Image.open(path)
+    resized = img.resize((imgwidth, imgwidth), Image.LANCZOS)  #type:ignore 
+
+    photo = ImageTk.PhotoImage(resized)
+
+    canvas.create_image(x, y, image=photo, anchor="nw") #type:ignore
+            # Keep reference alive
+    if not hasattr(canvas, "_photo_refs"):
+        canvas._photo_refs = []  #type:ignore
+    canvas._photo_refs.append(photo)  #type:ignore
+
+
+
+
+
+
 
 def makemusic(canvas:tk.Canvas):
 
@@ -187,13 +216,14 @@ def makemusic(canvas:tk.Canvas):
 
     picsize, _ = getMusicImg(canvas, size)
 
-
     metadata = get_latest_metadata()
 
     print(metadata.get("title"), metadata.get("artist"), metadata.get("album"))
     getTitle(canvas,size, picsize, metadata.get("title"), metadata.get("artist"), metadata.get("album"))
-
+    if size == 2:
+        getPlaying(canvas, picsize, metadata.get("playing"))
     canvas.config(bg="black")
+
     def updatemusic(metadata:dict[Any,Any]):
         new_metadata = get_latest_metadata()
         if new_metadata and new_metadata != metadata:
@@ -201,7 +231,8 @@ def makemusic(canvas:tk.Canvas):
             print(new_metadata.get("album"), new_metadata.get("artist"), new_metadata.get("title"))
             getMusicImg(canvas, size)
             getTitle(canvas,size, picsize, new_metadata.get("title"), new_metadata.get("artist"), new_metadata.get("album"))            
-
+            if size == 2:
+                getPlaying(canvas, picsize, new_metadata.get("playing"))
             metadata = new_metadata
         else:
             print("No update yet")
